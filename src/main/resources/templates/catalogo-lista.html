@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${titulo})}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1 th:text="${titulo}"></h1>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <a class="btn" th:href="@{/{b}/nuevo(b=${base})}">+ Nuevo</a>
+    <table>
+        <tr><th th:each="c : ${campos}" th:text="${c.label()}"></th><th>Acciones</th></tr>
+        <tr th:each="item : ${items}">
+            <td th:each="c : ${campos}" th:text="${item.__${c.name()}__}"></td>
+            <td>
+                <a class="btn sm" th:href="@{/{b}/{id}/editar(b=${base},id=${item.id})}">Editar</a>
+                <form class="inline" th:action="@{/{b}/{id}/eliminar(b=${base},id=${item.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar este registro?')">
+                    <button class="btn sm del">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

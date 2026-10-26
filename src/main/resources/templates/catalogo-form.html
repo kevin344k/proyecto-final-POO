@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${titulo})}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1 th:text="${item.id == null ? 'Nuevo registro' : 'Editar registro'} + ' - ' + ${titulo}"></h1>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <form th:action="@{/{b}/guardar(b=${base})}" method="post">
+        <input type="hidden" name="id" th:value="${item.id}">
+        <div th:each="c : ${campos}">
+            <label th:if="${c.name() == 'carrera'}"><span th:text="${c.label()}"></span>
+                <select name="carrera" required>
+                    <option value="">-- Seleccione --</option>
+                    <option th:each="k : ${carreras}" th:value="${k.id}" th:text="${k.nombre}"
+                            th:selected="${item.carrera != null and item.carrera.id == k.id}"></option>
+                </select>
+            </label>
+            <label th:unless="${c.name() == 'carrera'}"><span th:text="${c.label()}"></span>
+                <input th:name="${c.name()}" maxlength="100" required th:value="${item.__${c.name()}__}">
+            </label>
+        </div>
+        <div class="actions">
+            <button class="btn">Guardar</button>
+            <a class="btn sec" th:href="@{/{b}(b=${base})}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

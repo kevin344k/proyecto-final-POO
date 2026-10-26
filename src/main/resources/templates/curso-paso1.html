@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Nuevo curso')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Nuevo curso (paso 1 de 2)</h1>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <form th:action="@{/cursos/paso2}" method="post">
+        <label>Carrera
+            <input name="carrera" maxlength="100" required th:value="${f['carrera']}" list="lc">
+        </label>
+        <datalist id="lc"><option th:each="c : ${carrerasSug}" th:value="${c.nombre}"></option></datalist>
+        <label>Número de semestre
+            <input name="semestre" type="number" min="1" max="12" required th:value="${f['semestre']}">
+        </label>
+        <label>Ciclo lectivo (ej. 2026-1)
+            <input name="ciclo" maxlength="30" required th:value="${f['ciclo']}">
+        </label>
+        <label>Asignatura
+            <input name="asignatura" maxlength="100" required th:value="${f['asignatura']}" list="la">
+        </label>
+        <datalist id="la"><option th:each="a : ${asignaturasSug}" th:value="${a.nombre}"></option></datalist>
+        <label>Apellidos del profesor
+            <input name="profApellidos" maxlength="100" required th:value="${f['profApellidos']}">
+        </label>
+        <label>Nombres del profesor
+            <input name="profNombres" maxlength="100" required th:value="${f['profNombres']}">
+        </label>
+        <label>Número de estudiantes
+            <input name="numEstudiantes" type="number" min="1" max="200" required th:value="${f['numEstudiantes']}">
+        </label>
+        <div class="actions">
+            <button class="btn">Siguiente</button>
+            <a class="btn sec" th:href="@{/}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

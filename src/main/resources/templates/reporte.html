@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Reporte')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Reporte de calificaciones</h1>
+    <div class="cab">
+        <div><b>Carrera:</b> <span th:text="${curso.carrera}"></span></div>
+        <div><b>Asignatura:</b> <span th:text="${curso.asignatura}"></span></div>
+        <div><b>Semestre:</b> <span th:text="${curso.semestre}"></span></div>
+        <div><b>Ciclo lectivo:</b> <span th:text="${curso.ciclo}"></span></div>
+        <div><b>Profesor:</b> <span th:text="${curso.profesor}"></span></div>
+        <div><b>Nota mínima de aprobación:</b> <span th:text="${minimo}"></span> / 100</div>
+    </div>
+    <table>
+        <tr><th>#</th><th>Estudiante</th><th>Nota 1</th><th>Nota 2</th><th>Nota 3</th><th>Promedio</th><th>Estado</th></tr>
+        <tr th:each="c, s : ${filas}">
+            <td th:text="${s.count}"></td>
+            <td th:text="${c.estudiante}"></td>
+            <td th:text="${c.nota1 != null ? c.nota1 : '-'}"></td>
+            <td th:text="${c.nota2 != null ? c.nota2 : '-'}"></td>
+            <td th:text="${c.nota3 != null ? c.nota3 : '-'}"></td>
+            <td th:text="${c.promedio != null ? c.promedio : '-'}"></td>
+            <td th:class="${c.estado}" th:text="${c.estado}"></td>
+        </tr>
+    </table>
+    <p><b>Total:</b> <span th:text="${filas.size()}"></span> ·
+        <b>Aprobados:</b> <span th:text="${aprobados}"></span> ·
+        <b>Reprobados:</b> <span th:text="${reprobados}"></span> ·
+        <b>Pendientes:</b> <span th:text="${pendientes}"></span></p>
+    <div class="actions">
+        <button class="btn" onclick="window.print()">Imprimir</button>
+        <a class="btn sec" th:href="@{/cursos/{id}/notas(id=${curso.id})}">Editar notas</a>
+        <a class="btn sec" th:href="@{/}">Volver</a>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Estudiantes del curso')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Nuevo curso (paso 2 de 2): estudiantes</h1>
+    <p><b th:text="${f['asignatura']}"></b> · <span th:text="${f['carrera']}"></span> ·
+        Semestre <span th:text="${f['semestre']}"></span> · Ciclo <span th:text="${f['ciclo']}"></span></p>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <form th:action="@{/cursos/crear}" method="post">
+        <input type="hidden" name="carrera" th:value="${f['carrera']}">
+        <input type="hidden" name="semestre" th:value="${f['semestre']}">
+        <input type="hidden" name="ciclo" th:value="${f['ciclo']}">
+        <input type="hidden" name="asignatura" th:value="${f['asignatura']}">
+        <input type="hidden" name="profApellidos" th:value="${f['profApellidos']}">
+        <input type="hidden" name="profNombres" th:value="${f['profNombres']}">
+        <input type="hidden" name="numEstudiantes" th:value="${f['numEstudiantes']}">
+        <table>
+            <tr><th>#</th><th>Apellidos</th><th>Nombres</th></tr>
+            <tr th:each="i : ${filas}">
+                <td th:text="${i}"></td>
+                <td><input style="width:100%" name="ap" maxlength="100" required
+                           th:value="${ap.size() >= i ? ap[i - 1] : ''}"></td>
+                <td><input style="width:100%" name="no" maxlength="100" required
+                           th:value="${no.size() >= i ? no[i - 1] : ''}"></td>
+            </tr>
+        </table>
+        <div class="actions">
+            <button class="btn">Crear curso</button>
+            <a class="btn sec" th:href="@{/cursos/nuevo}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

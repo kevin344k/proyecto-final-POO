@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' - Calificaciones'">Calificaciones</title>
+    <link rel="stylesheet" th:href="@{/estilo.css}">
+</head>
+<body>
+<nav th:fragment="nav">
+    <img th:src="@{/img/logo.png}" alt="Logo" class="logo" onerror="this.style.display='none'">
+    <span class="brand">Sistema de Calificaciones</span>
+    <a th:href="@{/}">Cursos</a>
+    <a th:href="@{/carreras}">Carreras</a>
+    <a th:href="@{/asignaturas}">Asignaturas</a>
+    <a th:href="@{/profesores}">Profesores</a>
+    <a th:href="@{/estudiantes}">Estudiantes</a>
+</nav>
+<div th:fragment="msgs">
+    <div class="ok" th:if="${ok}" th:text="${ok}"></div>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+    <div class="error" th:if="${errores}">
+        <ul><li th:each="e : ${errores}" th:text="${e}"></li></ul>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Cursos')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>PROYECTO FINAL POO</h1>
+    <div>
+        <span>Integrantes:</span>
+        <p>1. Kevin Arizaga Orellana</p>
+        <p>2. Anthony Maquilon </p>
+        <p>3. Andy Vargas</p>
+        <p>4. Henry Chacón</p>
+    </div>
+    <p>Cursos registrados</p>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <a class="btn" th:href="@{/cursos/nuevo}">+ Nuevo curso</a>
+    <p th:if="${cursos.isEmpty()}">Aún no hay cursos. Cree uno para comenzar.</p>
+    <table th:unless="${cursos.isEmpty()}">
+        <tr><th>Asignatura</th><th>Carrera</th><th>Sem.</th><th>Ciclo</th><th>Profesor</th><th>Acciones</th></tr>
+        <tr th:each="c : ${cursos}">
+            <td th:text="${c.asignatura}"></td>
+            <td th:text="${c.carrera}"></td>
+            <td th:text="${c.semestre}"></td>
+            <td th:text="${c.ciclo}"></td>
+            <td th:text="${c.profesor}"></td>
+            <td>
+                <a class="btn sm" th:href="@{/cursos/{id}/notas(id=${c.id})}">Notas</a>
+                <a class="btn sm sec" th:href="@{/cursos/{id}/reporte(id=${c.id})}">Reporte</a>
+                <form class="inline" th:action="@{/cursos/{id}/eliminar(id=${c.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar el curso y sus calificaciones?')">
+                    <button class="btn sm del">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Calificaciones')}"></head>
+<body>
+<nav th:replace="~{fragments :: nav}"></nav>
+<main>
+    <h1>Calificaciones</h1>
+    <p><b th:text="${curso.asignatura}"></b> · <span th:text="${curso.carrera}"></span> ·
+        Semestre <span th:text="${curso.semestre}"></span> · Ciclo <span th:text="${curso.ciclo}"></span> ·
+        Prof. <span th:text="${curso.profesor}"></span></p>
+    <div th:replace="~{fragments :: msgs}"></div>
+    <p>Cada nota es sobre 100. Aprobación: promedio mínimo de 70. Puede dejar notas vacías y completarlas luego.</p>
+    <form th:action="@{/cursos/{id}/notas(id=${curso.id})}" method="post">
+        <table>
+            <tr><th>Estudiante</th><th>Nota 1</th><th>Nota 2</th><th>Nota 3</th><th>Promedio</th><th>Estado</th></tr>
+            <tr th:each="c : ${filas}">
+                <td th:text="${c.estudiante}"></td>
+                <td><input th:name="'n1_' + ${c.id}" inputmode="decimal" maxlength="6"
+                           th:value="${raw != null ? raw['n1_' + c.id] : c.nota1}"></td>
+                <td><input th:name="'n2_' + ${c.id}" inputmode="decimal" maxlength="6"
+                           th:value="${raw != null ? raw['n2_' + c.id] : c.nota2}"></td>
+                <td><input th:name="'n3_' + ${c.id}" inputmode="decimal" maxlength="6"
+                           th:value="${raw != null ? raw['n3_' + c.id] : c.nota3}"></td>
+                <td th:text="${raw == null and c.promedio != null ? c.promedio : '-'}"></td>
+                <td th:class="${raw == null} ? ${c.estado}" th:text="${raw == null ? c.estado : ''}"></td>
+            </tr>
+        </table>
+        <div class="actions">
+            <button class="btn">Guardar calificaciones</button>
+            <a class="btn sec" th:href="@{/cursos/{id}/reporte(id=${curso.id})}">Ver reporte</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
